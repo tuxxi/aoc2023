@@ -17,50 +17,40 @@ func day3(input []string) (any, any) {
 	for lineNum, line := range input {
 		for i := 0; i < len(line); i++ {
 			c := line[i]
-			if unicode.IsDigit(rune(c)) {
-				// consume the whole range of digits
-				j := i
-				for ; j < len(line) && unicode.IsDigit(rune(line[j])); j++ {
-				}
-				digits, _ := strconv.Atoi(line[i:j])
-				j--
+			if isPart(c) {
+				adjacenctNums := make([]int, 0)
 
-				validPart := false
-				// 1 line above and below
+				// check in a box around the part
 				for y := lineNum - 1; y <= lineNum+1; y++ {
 					if y < 0 || y >= len(input) {
 						continue
 					}
-					// 1 char before and after
-					for x := i - 1; x <= j+1; x++ {
+					x := i - 1
+					for ; x <= i+1; x++ {
 						if x < 0 || x >= len(line) {
 							continue
 						}
-						if isPart(input[y][x]) {
-							validPart = true
-							goto done
-						}
-						// check diagonals at i-1 and j+1
-						if y != lineNum {
-							if (i != 0 && isPart(input[y][i-1])) || (j != len(line)-1 && isPart(input[y][j+1])) {
-								validPart = true
-								goto done
+						char := rune(input[y][x])
+						if unicode.IsDigit(char) {
+							// consume digits to find the range [start, end] on line y
+							var start, end int = x, x
+							for ; start >= 0 && unicode.IsDigit(rune(input[y][start])); start-- {
 							}
+							for ; end < len(line) && unicode.IsDigit(rune(input[y][end])); end++ {
+							}
+							partNum, _ := strconv.Atoi(input[y][start+1 : end])
+							adjacenctNums = append(adjacenctNums, partNum)
+							// skip forward to end of the range to avoid double-counting a part
+							x = end
 						}
-
 					}
 				}
-
-			done:
-				if validPart {
-					part1 += digits
-					// fmt.Printf("✔️ valid part number at (%d, %d:%d): %d\n", lineNum, i, j, digits)
-				} else {
-					// fmt.Printf("❌ invalid part number at (%d, %d:%d): %d\n", lineNum, i, j, digits)
+				for _, num := range adjacenctNums {
+					part1 += num
 				}
-
-				// skip to next on this line
-				i = j
+				if isGear(c) && len(adjacenctNums) == 2 {
+					part2 += (adjacenctNums[0] * adjacenctNums[1])
+				}
 			}
 		}
 	}
@@ -69,4 +59,8 @@ func day3(input []string) (any, any) {
 
 func isPart(b byte) bool {
 	return !(b == '.' || unicode.IsDigit(rune(b)))
+}
+
+func isGear(b byte) bool {
+	return b == '*'
 }
