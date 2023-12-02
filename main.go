@@ -14,12 +14,12 @@ var (
 )
 
 func main() {
-
 	flag.Parse()
 
-	input := util.GetInputStdin()
+	input := util.GetPuzzleInput(*day)
 	fmt.Printf("Running day: %d. Input is %d lines long\n", *day, len(input))
+	p1, p2 := util.GetDay(*day)(input)
 
-	fmt.Println("Part1: ", util.GetDay(*day).Part1(input))
-	fmt.Println("Part2: ", util.GetDay(*day).Part2(input))
+	fmt.Println("Part1: ", p1)
+	fmt.Println("Part2: ", p2)
 }
