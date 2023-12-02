@@ -7,37 +7,29 @@ import (
 	"github.com/tuxxi/aoc2023/util"
 )
 
-type day2 struct{}
-
 func init() {
-	util.RegisterDay[day2](2)
+	util.RegisterDay(2, day2)
 }
 
-func (_ day2) Part1(input []string) any {
-	part1, _ := impl(input)
-	return part1
-}
-
-func (_ day2) Part2(input []string) any {
-	_, part2 := impl(input)
-	return part2
-}
-
-func impl(input []string) (part1, part2 int) {
-	maxs := map[string]int{
-		"red":   12,
-		"green": 13,
-		"blue":  14,
-	}
-	for _, line := range input {
-		mins := map[string]int{
-			"red":   0,
-			"green": 0,
-			"blue":  0,
+func day2(input []string) (any, any) {
+	var (
+		part1 int = 0
+		part2 int = 0
+		maxs      = map[string]int{
+			"red":   12,
+			"green": 13,
+			"blue":  14,
 		}
+	)
+	for _, line := range input {
 		var (
 			gameNum int
 			valid   bool = true
+			mins         = map[string]int{
+				"red":   0,
+				"green": 0,
+				"blue":  0,
+			}
 		)
 		_, err := fmt.Sscanf(line, "Game %d:", &gameNum)
 		if err != nil {

@@ -2,24 +2,34 @@ package util
 
 import "fmt"
 
-type Day interface {
-	Part1([]string) any
-	Part2([]string) any
+type dayImpl func([]string) (any, any)
+
+type Day struct {
+	dayImpl
+}
+
+func (d Day) Part1(lines []string) any {
+	p1, _ := d.dayImpl(lines)
+	return p1
+}
+
+func (d Day) Part2(lines []string) any {
+	_, p2 := d.dayImpl(lines)
+	return p2
 }
 
 var (
-	days = make(map[int]Day)
+	days = make(map[int]dayImpl)
 )
 
-func RegisterDay[T Day](d int) {
-	var day T
-	days[d] = day
+func RegisterDay(d int, impl dayImpl) {
+	days[d] = impl
 }
 
 func GetDay(d int) Day {
-	day, ok := days[d]
+	impl, ok := days[d]
 	if !ok {
 		panic(fmt.Sprintf("could not find day: %d", d))
 	}
-	return day
+	return Day{impl}
 }

@@ -4,10 +4,8 @@ import (
 	"github.com/tuxxi/aoc2023/util"
 )
 
-type day1 struct{}
-
 func init() {
-	util.RegisterDay[day1](1)
+	util.RegisterDay(1, day1)
 }
 
 func asciiByteToInt(b byte) int {
@@ -18,81 +16,46 @@ func asciiByteIsDigit(b byte) bool {
 	return 0x30 <= b && b <= 0x39
 }
 
-func (_ day1) Part1(input []string) any {
-	var total int
+func day1(input []string) (any, any) {
+	var (
+		part1, part2 int
+		nums         = map[string]int{
+			"one":   1,
+			"two":   2,
+			"three": 3,
+			"four":  4,
+			"five":  5,
+			"six":   6,
+			"seven": 7,
+			"eight": 8,
+			"nine":  9,
+		}
+	)
 
 	for _, line := range input {
-		var lineTotal int
-		// 1st number
-		for i := 0; i < len(line); i++ {
-			if asciiByteIsDigit(line[i]) {
-				lineTotal += 10 * asciiByteToInt(line[i])
-				break
-			}
-		}
-
-		// 2nd number, may be the same as the first
-		for i := len(line) - 1; i >= 0; i-- {
-			if asciiByteIsDigit(line[i]) {
-				lineTotal += asciiByteToInt(line[i])
-				break
-			}
-		}
-		total += lineTotal
-	}
-	return total
-}
-
-func (_ day1) Part2(input []string) any {
-	var total int
-	nums := map[string]int{
-		"one":   1,
-		"two":   2,
-		"three": 3,
-		"four":  4,
-		"five":  5,
-		"six":   6,
-		"seven": 7,
-		"eight": 8,
-		"nine":  9,
-	}
-
-	for _, line := range input {
-		var lineTotal int
-	outerfwd:
+		var line1, line2 []int
 		for i := 0; i < len(line); i++ {
 			// check if digit is numeric
 			if asciiByteIsDigit(line[i]) {
-				lineTotal += 10 * asciiByteToInt(line[i])
-				break
+				line1 = append(line1, asciiByteToInt(line[i]))
+				line2 = append(line2, asciiByteToInt(line[i]))
 			}
-			// otherwise, it's spelled out, use sliding window
-			for j := i; j < len(line); j++ {
-				num, ok := nums[line[i:j]]
-				if ok {
-					lineTotal += 10 * num
-					break outerfwd
-				}
-			}
-		}
-
-	outerback:
-		for i := len(line) - 1; i >= 0; i-- {
-			if asciiByteIsDigit(line[i]) {
-				lineTotal += asciiByteToInt(line[i])
-				break
-			}
-			// backwards sliding window
+			// otherwise, it's spelled out, use sliding window to find any number word starting at `i`
 			for j := i; j <= len(line); j++ {
 				num, ok := nums[line[i:j]]
 				if ok {
-					lineTotal += num
-					break outerback
+					line2 = append(line2, num)
+					break
 				}
 			}
 		}
 
-		total += lineTotal
+		if len(line1) != 0 {
+			part1 += line1[0]*10 + line1[len(line1)-1]
+		}
+		if len(line2) != 0 {
+			part2 += line2[0]*10 + line2[len(line2)-1]
+		}
 	}
-	return total
+	return part1, part2
 }
