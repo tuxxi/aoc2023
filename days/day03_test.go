@@ -24,22 +24,14 @@ func TestD3(t *testing.T) {
 	util.AssertEq(t, p2, 467835)
 }
 
-func TestD3_Adjacent(t *testing.T) {
-	input := []string{
-		"467.*114..",
-		"..........",
-		"...*.1....",
-	}
-	p1, _ := day3(input)
-	util.AssertEq(t, p1, 114)
-
-}
-
 func TestD3_GearRatio(t *testing.T) {
-	// adjacent
+	// adjacent gear is not double counted
 	input := []string{
 		"....*.....",
 		"..35.633..",
+		"..........",
+		"..114.....",
+		"...*......",
 	}
 	_, p2 := day3(input)
 	util.AssertEq(t, p2, 22155)

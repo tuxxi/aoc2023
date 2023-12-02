@@ -14,12 +14,8 @@ var input = []string{
 	"Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green",
 }
 
-func TestD2_1(t *testing.T) {
-	res := util.GetDay(2).Part1(input)
-	util.AssertEq(t, res, 8)
-}
-
-func TestD2_2(t *testing.T) {
-	res := util.GetDay(2).Part2(input)
-	util.AssertEq(t, res, 2286)
+func TestD2(t *testing.T) {
+	p1, p2 := day2(input)
+	util.AssertEq(t, p1, 8)
+	util.AssertEq(t, p2, 2286)
 }

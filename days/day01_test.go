@@ -13,8 +13,8 @@ func TestD1_1(t *testing.T) {
 		"a1b2c3d4e5f",
 		"treb7uchet",
 	}
-	res := util.GetDay(1).Part1(input)
-	util.AssertEq(t, res, 142)
+	p1, _ := day1(input)
+	util.AssertEq(t, p1, 142)
 }
 
 func TestD1_2(t *testing.T) {
@@ -27,6 +27,6 @@ func TestD1_2(t *testing.T) {
 		"zoneight234",
 		"7pqrstsixteen",
 	}
-	res := util.GetDay(1).Part2(input)
-	util.AssertEq(t, res, 281)
+	_, p2 := day1(input)
+	util.AssertEq(t, p2, 281)
 }
