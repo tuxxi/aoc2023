@@ -6,7 +6,7 @@ import (
 	"github.com/tuxxi/aoc2023/util"
 )
 
-func TestPart1(t *testing.T) {
+func TestD1_1(t *testing.T) {
 	var input = []string{
 		"1abc2",
 		"pqr3stu8vwx",
@@ -19,7 +19,7 @@ func TestPart1(t *testing.T) {
 	}
 }
 
-func TestPart2(t *testing.T) {
+func TestD1_2(t *testing.T) {
 	var input = []string{
 		"two1nine",
 		"eightwothree",

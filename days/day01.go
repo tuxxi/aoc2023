@@ -6,7 +6,6 @@ import (
 
 type day1 struct{}
 
-// Ensure day1 fulfills the Day interface
 var _ util.Day = (*day1)(nil)
 
 func init() {
@@ -41,9 +40,6 @@ func (_ day1) Part1(input []string) any {
 				break
 			}
 		}
-		if lineTotal == 0 {
-			panic("line had no digits")
-		}
 		total += lineTotal
 	}
 	return total
@@ -77,7 +73,6 @@ func (_ day1) Part2(input []string) any {
 				num, ok := nums[line[i:j]]
 				if ok {
 					lineTotal += 10 * num
-					i = j
 					break outerfwd
 				}
 			}
