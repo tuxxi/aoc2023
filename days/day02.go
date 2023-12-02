@@ -9,59 +9,26 @@ import (
 
 type day2 struct{}
 
-var _ util.Day = (*day1)(nil)
-
 func init() {
 	util.RegisterDay[day2](2)
 }
 
 func (_ day2) Part1(input []string) any {
+	part1, _ := impl(input)
+	return part1
+}
+
+func (_ day2) Part2(input []string) any {
+	_, part2 := impl(input)
+	return part2
+}
+
+func impl(input []string) (part1, part2 int) {
 	maxs := map[string]int{
 		"red":   12,
 		"green": 13,
 		"blue":  14,
 	}
-
-	total := 0
-	for _, line := range input {
-		var (
-			gameNum int
-		)
-		_, err := fmt.Sscanf(line, "Game %d:", &gameNum)
-		if err != nil {
-			panic(fmt.Sprintf("could not scan line: %v", err))
-		}
-		valid := true
-		turns := strings.TrimSpace(strings.Split(line, ":")[1])
-		for _, turn := range strings.Split(turns, ";") {
-			for _, cube := range strings.Split(turn, ",") {
-				var (
-					num   int
-					color string
-				)
-				_, err := fmt.Sscanf(cube, "%d %s", &num, &color)
-				if err != nil {
-					panic(fmt.Sprintf("could not scan cube: %v", err))
-				}
-
-				if max_, ok := maxs[color]; ok {
-					if num > max_ {
-						valid = false
-						goto done // don't need to process more, turn is invalid
-					}
-				}
-			}
-		}
-	done:
-		if valid {
-			total += gameNum
-		}
-	}
-	return total
-}
-
-func (_ day2) Part2(input []string) any {
-	power := 0
 	for _, line := range input {
 		mins := map[string]int{
 			"red":   0,
@@ -70,6 +37,7 @@ func (_ day2) Part2(input []string) any {
 		}
 		var (
 			gameNum int
+			valid   bool = true
 		)
 		_, err := fmt.Sscanf(line, "Game %d:", &gameNum)
 		if err != nil {
@@ -89,9 +57,18 @@ func (_ day2) Part2(input []string) any {
 				if mins[color] < num {
 					mins[color] = num
 				}
+
+				if max_, ok := maxs[color]; ok {
+					if num > max_ {
+						valid = false
+					}
+				}
 			}
 		}
-		power += (mins["red"] * mins["blue"] * mins["green"])
+		part2 += (mins["red"] * mins["blue"] * mins["green"])
+		if valid {
+			part1 += gameNum
+		}
 	}
-	return power
+	return part1, part2
 }

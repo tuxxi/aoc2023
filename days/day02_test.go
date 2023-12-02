@@ -16,14 +16,10 @@ var input = []string{
 
 func TestD2_1(t *testing.T) {
 	res := util.GetDay(2).Part1(input)
-	if res != 8 {
-		t.Fatal("expected 8, got", res)
-	}
+	util.AssertEq(t, res, 8)
 }
 
 func TestD2_2(t *testing.T) {
 	res := util.GetDay(2).Part2(input)
-	if res != 2286 {
-		t.Fatal("expected 2286, got", res)
-	}
+	util.AssertEq(t, res, 2286)
 }

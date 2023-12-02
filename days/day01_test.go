@@ -14,9 +14,7 @@ func TestD1_1(t *testing.T) {
 		"treb7uchet",
 	}
 	res := util.GetDay(1).Part1(input)
-	if res != 142 {
-		t.Fatal("expected 142, got", res)
-	}
+	util.AssertEq(t, res, 142)
 }
 
 func TestD1_2(t *testing.T) {
@@ -30,7 +28,5 @@ func TestD1_2(t *testing.T) {
 		"7pqrstsixteen",
 	}
 	res := util.GetDay(1).Part2(input)
-	if res != 281 {
-		t.Fatal("expected 281, got", res)
-	}
+	util.AssertEq(t, res, 281)
 }

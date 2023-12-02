@@ -6,8 +6,6 @@ import (
 
 type day1 struct{}
 
-var _ util.Day = (*day1)(nil)
-
 func init() {
 	util.RegisterDay[day1](1)
 }
