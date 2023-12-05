@@ -18,10 +18,7 @@ func init() {
 type mapEntry struct {
 	dstStart, srcStart, len_ int
 }
-
-type mapping struct {
-	entries []mapEntry
-}
+type mapping []mapEntry
 
 type seedsRange struct {
 	start, len_ int
@@ -32,7 +29,7 @@ var (
 	seedsP2 []seedsRange
 
 	metaMapping  = make(map[string]mapping)
-	mappingOrder = []string{
+	mappingOrder = [...]string{
 		"seed", "soil", "fertilizer", "water", "light", "temperature", "humidity",
 	}
 )
@@ -124,14 +121,14 @@ func parseMap(mapText []string) mapping {
 		dstStart := nums[0]
 		srcStart := nums[1]
 		len_ := nums[2]
-		output.entries = append(output.entries, mapEntry{dstStart, srcStart, len_})
+		output = append(output, mapEntry{dstStart, srcStart, len_})
 	}
 	return output
 }
 
 // read from the sparse map.
 func (m mapping) readMapVal(k int) int {
-	for _, e := range m.entries {
+	for _, e := range m {
 		if e.srcStart <= k && k < e.srcStart+e.len_ {
 			return e.dstStart + (k - e.srcStart)
 		}
