@@ -56,5 +56,5 @@ func TestD5(t *testing.T) {
 	}
 	p1, p2 := day5(input)
 	util.AssertEq(t, p1, 35)
-	util.AssertEq(t, p2, 0)
+	util.AssertEq(t, p2, 46)
 }
