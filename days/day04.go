@@ -2,7 +2,6 @@ package days
 
 import (
 	"math"
-	"strconv"
 	"strings"
 
 	"github.com/tuxxi/aoc2023/util"
@@ -25,8 +24,8 @@ func day4(input []string) (any, any) {
 	for i, line := range input {
 		l := strings.Split(line, ":")[1]
 		l2 := strings.Split(l, "|")
-		winning := NumsToInts(strings.Fields(l2[0]))
-		have := NumsToInts(strings.Fields(l2[1]))
+		winning := util.NumsToInts(strings.Fields(l2[0]))
+		have := util.NumsToInts(strings.Fields(l2[1]))
 
 		matching := 0
 		for _, h := range have {
@@ -49,16 +48,4 @@ func day4(input []string) (any, any) {
 		part2 += count
 	}
 	return part1, part2
-}
-
-func NumsToInts(nums []string) []int {
-	var ret []int
-	for _, num := range nums {
-		i, err := strconv.Atoi(num)
-		if err != nil {
-			panic(err)
-		}
-		ret = append(ret, i)
-	}
-	return ret
 }
