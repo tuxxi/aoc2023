@@ -3,12 +3,12 @@ package days
 import (
 	"fmt"
 	"math"
+	"slices"
 	"strings"
 	"sync"
 	"unicode"
 
 	"github.com/tuxxi/aoc2023/util"
-	"golang.org/x/exp/slices"
 )
 
 func init() {

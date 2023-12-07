@@ -2,10 +2,10 @@ package days
 
 import (
 	"math"
+	"slices"
 	"strings"
 
 	"github.com/tuxxi/aoc2023/util"
-	"golang.org/x/exp/slices"
 )
 
 func init() {

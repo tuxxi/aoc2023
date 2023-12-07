@@ -2,11 +2,11 @@ package days
 
 import (
 	"fmt"
+	"slices"
 	"strconv"
 	"strings"
 
 	"github.com/tuxxi/aoc2023/util"
-	"golang.org/x/exp/slices"
 )
 
 func init() {
@@ -129,26 +129,15 @@ func parseHand2(cards string) handPower {
 
 	// greedy recursion algorithm
 	maxPower := handPowerHigh
-	for i := strings.IndexRune(cards, 'J'); i != -1; {
-		// try replacing each J with on of the other cards
+	for i := range util.StrIndexes(cards, 'J') {
+		// try replacing each J with one of the other cards
 		for c := range seen {
 			if c == 'J' {
 				continue
 			}
 			replaced := cards[:i] + string(c) + cards[i+1:]
-			// fmt.Printf("checking power of %s:", replaced)
-			pow := parseHand2(replaced)
-			// fmt.Printf("got power of %s: %v\n", replaced, pow)
-			if pow > maxPower {
-				maxPower = pow
-			}
+			maxPower = max(parseHand2(replaced), maxPower)
 		}
-		// next J
-		itr := strings.IndexRune(cards[i+1:], 'J')
-		if itr == -1 {
-			break
-		}
-		i += itr + 1
 	}
 	return maxPower
 }
